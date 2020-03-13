@@ -1,0 +1,11 @@
+Output: Simple BOM
+Type  : SimpleBOM
+From  : Project [Free Documents]
+   Generated File[PCB1.BOM]
+   Generated File[PCB1.CSV]
+
+
+Files Generated   : 2
+Documents Printed : 0
+
+Finished Output Generation At 11:11:40 On 2019/7/8

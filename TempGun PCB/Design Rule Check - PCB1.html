@@ -1,0 +1,709 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-16">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : sans-serif;
+			color : white;
+			background-color : #21489e;
+			padding: 0.3em;
+		}
+		body {
+			font-family : verdana;
+		}
+		td, th {
+			padding: 0.5em;
+			text-align : center;
+			width : 18%;
+		}
+		th {
+			background-color : #A6CAF0;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+		}
+		
+		.DRC_summary_header {							
+			padding-bottom : 0.1em;
+			border : 0px solid black;							
+			width: 100%;
+                        align: right;
+                        
+		}
+
+		.DRC_summary_header_col1, 
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3
+		{
+			color : black;
+			font-size:150%;
+                        padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2: 0em;
+			border : 0px solid black;
+			width : auto;
+			vertical-align: top;
+			font-weight: bold;				
+		}
+		
+		.DRC_summary_header_col1 	
+		{		                       
+			text-align: right;
+                        width: auto;	
+		}
+
+		.DRC_summary_header_col2 	
+		{		
+			text-align: center;	
+		}
+
+		.DRC_summary_header_col3 	
+		{		
+			text-align: left;	
+		}
+
+
+		
+		.header_holder
+		{
+		Width = 100%;
+		border = 0px solid green;
+		padding = 0;
+		}
+		
+		
+		
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+                {
+			left:0;
+			top:0;
+			padding-top : 0.1em;			
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top
+
+		}
+		.front_matter {	
+			
+			margin-top: 5px;
+ 			margin-left: 0px;					 			
+ 			horizontal-align: left;
+		}
+				
+		
+		.front_matter_column1 {
+			width : 10em;	
+			text-align  : right;
+			padding-right:0.1em;
+			
+		}
+		
+		.front_matter_column2 {
+                        width: 0.1em;
+			align: center;
+			text-align : center;
+			margin-right  : 0.1em;	
+			margin-left   : 0.1em;
+		}
+		.front_matter_column3 {
+			width         : auto;  
+			text-align    : left;	
+			margin-right  : 0.5em;				
+		}
+		
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : right;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #EEEEE0 
+		}
+		tr.onmouseout_even { 
+			background-color : #F3F3E3   
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : lightYellow
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #008000 
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script></head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\PROGRAM FILES (X86)\ALTIUM DESIGNER WINTER 09\Templates\AD-rgb_logo_223x64.gif
+		"><a href="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports" class="customize"><acronym title="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports">customize</acronym></a><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td Style="width:70%">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">2019/6/29</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">12:09:58</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3"><a href="file:///D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc" class="file"><acronym title="D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc">D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td Style="Width:30%">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3" style="color : red">104</td></tr>
+</table>
+</td>
+</table>
+<hr><a name="ID153BJZFP1ANOMLQ0WIKC0W0ALFTUM1XNOXVDTHRN13X2Y4TED5J"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDMRCXNYKPBBWNH5G3WROANAS0FGYEUCW4JFJTBLDX3TYOGVOZJHWC">Net Antennae (Tolerance=0mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDTOUL0LZI1L1SP0VEJMEICSUGQFATZ5JS1K2ARHFCI44YAPIOY4GD">Silk to Silk (Clearance=0mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDI0KNHDGB51DEKNXL52QEF5HB4PDTQSHIGS4XZQIC53LC5DB4Q3YG">Silkscreen Over Component Pads (Clearance=0mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDMAF1LSH2U2VIK3UZN5N0MJDR1I45WSDXFG2I3XHWTWCRLQ0SBF5F">Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQLR51JSQCIH5KATMWBIDFZYCMMCNZFEI4WEDJJKAY5O3JU3R3HP">Hole To Hole Clearance (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID5ZNTK5GYJLZ5NFBTWPPDME0ZWLGFFVCSBZKHIJC34W44TYNJHRU">Hole Size Constraint (Min=0.0254mm) (Max=2.54mm) (All)</a></td>
+<td class="column2">4</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDDVG5VONPM3NGNISMMTRJ3K0XHBDVCAU0GY2NPKMOWLE0UWE0MAWM">Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDOVMDFPCZIW2HKBFBG5MGM2ULZEH0Z3YFGCIE4PF1I5TU0IWCA5QG">Width Constraint (Min=0.254mm) (Max=0.254mm) (Preferred=0.254mm) (All)</a></td>
+<td class="column2">46</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID45NFJE35HOD5EWQP1KKFGNQNDNRJA3MZ4FNCVJJIANSPUHUXIHLN">Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDWXYCLHL2BPLK0PNDW2BGAFT1MUZ55AAZMIDRTDM1GOZSNC3WC3N">Clearance Constraint (Gap=0.254mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDENUARXQ0PODN5SIZITINI0QYNVV5TKY4PQYNUEDHJIND1KDW2RH">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDC2T5ROSZIGUCO11KB3Z5LOIYUEGHL1TZYV2BOKOMCVVGBBR0B1BD">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">54</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">104</td>
+</tr>
+</table><br><hr><a name="ID5ZNTK5GYJLZ5NFBTWPPDME0ZWLGFFVCSBZKHIJC34W44TYNJHRU"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Hole Size Constraint (Min=0.0254mm) (Max=2.54mm) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12247.89mil|Location2.X=12492.11mil|Location1.Y=17782.89mil|Location2.Y=18027.11mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12247.89mil|Location2.X=12492.11mil|Location1.Y=17782.89mil|Location2.Y=18027.11mil|Absolute=True">Hole Size Constraint: Via (3.429mm,38.227mm) Top Layer to Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12247.89mil|Location2.X=12492.11mil|Location1.Y=16417.89mil|Location2.Y=16662.11mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12247.89mil|Location2.X=12492.11mil|Location1.Y=16417.89mil|Location2.Y=16662.11mil|Absolute=True">Hole Size Constraint: Via (3.429mm,3.556mm) Top Layer to Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13547.89mil|Location2.X=13792.11mil|Location1.Y=17787.89mil|Location2.Y=18032.11mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13547.89mil|Location2.X=13792.11mil|Location1.Y=17787.89mil|Location2.Y=18032.11mil|Absolute=True">Hole Size Constraint: Via (36.449mm,38.354mm) Top Layer to Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13547.89mil|Location2.X=13792.11mil|Location1.Y=16417.89mil|Location2.Y=16662.11mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13547.89mil|Location2.X=13792.11mil|Location1.Y=16417.89mil|Location2.Y=16662.11mil|Absolute=True">Hole Size Constraint: Via (36.449mm,3.556mm) Top Layer to Bottom Layer</acronym></a><br></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDOVMDFPCZIW2HKBFBG5MGM2ULZEH0Z3YFGCIE4PF1I5TU0IWCA5QG"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Width Constraint (Min=0.254mm) (Max=0.254mm) (Preferred=0.254mm) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Width Constraint: Arc (19.939mm,20.828mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Width Constraint: Arc (19.939mm,20.828mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12791.378mil|Location2.X=13578.622mil|Location1.Y=16701.378mil|Location2.Y=16748.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12791.378mil|Location2.X=13578.622mil|Location1.Y=16701.378mil|Location2.Y=16748.622mil|Absolute=True">Width Constraint: Track (14.732mm,8.255mm)(33.528mm,8.255mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12838.622mil|Location1.Y=16701.378mil|Location2.Y=17043.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12838.622mil|Location1.Y=16701.378mil|Location2.Y=17043.622mil|Absolute=True">Width Constraint: Track (7.239mm,15.748mm)(14.732mm,8.255mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12543.622mil|Location1.Y=16996.378mil|Location2.Y=17578.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12543.622mil|Location1.Y=16996.378mil|Location2.Y=17578.622mil|Absolute=True">Width Constraint: Track (7.239mm,15.748mm)(7.239mm,29.337mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12798.622mil|Location1.Y=17531.378mil|Location2.Y=17833.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12496.378mil|Location2.X=12798.622mil|Location1.Y=17531.378mil|Location2.Y=17833.622mil|Absolute=True">Width Constraint: Track (7.239mm,29.337mm)(13.716mm,35.814mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12751.378mil|Location2.X=12798.622mil|Location1.Y=17786.378mil|Location2.Y=17963.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12751.378mil|Location2.X=12798.622mil|Location1.Y=17786.378mil|Location2.Y=17963.622mil|Absolute=True">Width Constraint: Track (13.716mm,35.814mm)(13.716mm,39.116mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13531.378mil|Location2.X=13773.622mil|Location1.Y=16701.378mil|Location2.Y=16943.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13531.378mil|Location2.X=13773.622mil|Location1.Y=16701.378mil|Location2.Y=16943.622mil|Absolute=True">Width Constraint: Track (33.528mm,8.255mm)(38.481mm,13.208mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13726.378mil|Location2.X=13773.622mil|Location1.Y=16896.378mil|Location2.Y=17004.016mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13726.378mil|Location2.X=13773.622mil|Location1.Y=16896.378mil|Location2.Y=17004.016mil|Absolute=True">Width Constraint: Track (38.481mm,13.208mm)(38.481mm,14.742mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13140.315mil|Location2.X=13589.685mil|Location1.Y=17125.315mil|Location2.Y=17164.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13140.315mil|Location2.X=13589.685mil|Location1.Y=17125.315mil|Location2.Y=17164.685mil|Absolute=True">Width Constraint: Track (23.495mm,18.923mm)(33.909mm,18.923mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13550.315mil|Location2.X=13725.079mil|Location1.Y=17125.315mil|Location2.Y=17300.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13550.315mil|Location2.X=13725.079mil|Location1.Y=17125.315mil|Location2.Y=17300.079mil|Absolute=True">Width Constraint: Track (33.909mm,18.923mm)(37.348mm,22.362mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13293.786mil|Location2.X=13481.626mil|Location1.Y=16906.844mil|Location2.Y=17094.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13293.786mil|Location2.X=13481.626mil|Location1.Y=16906.844mil|Location2.Y=17094.685mil|Absolute=True">Width Constraint: Track (27.39315mm,13.37385mm)(31.16431mm,17.145mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13442.256mil|Location2.X=13779.685mil|Location1.Y=17055.315mil|Location2.Y=17094.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13442.256mil|Location2.X=13779.685mil|Location1.Y=17055.315mil|Location2.Y=17094.685mil|Absolute=True">Width Constraint: Track (31.16431mm,17.145mm)(38.735mm,17.145mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13040.315mil|Location2.X=13379.685mil|Location1.Y=17635.315mil|Location2.Y=17974.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13040.315mil|Location2.X=13379.685mil|Location1.Y=17635.315mil|Location2.Y=17974.685mil|Absolute=True">Width Constraint: Track (20.95501mm,39.497mm)(28.57501mm,31.877mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13340.315mil|Location2.X=13769.685mil|Location1.Y=17635.315mil|Location2.Y=17674.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13340.315mil|Location2.X=13769.685mil|Location1.Y=17635.315mil|Location2.Y=17674.685mil|Absolute=True">Width Constraint: Track (28.57501mm,31.877mm)(38.481mm,31.877mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13859.685mil|Location1.Y=17545.315mil|Location2.Y=17674.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13859.685mil|Location1.Y=17545.315mil|Location2.Y=17674.685mil|Absolute=True">Width Constraint: Track (38.481mm,31.877mm)(40.767mm,29.591mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13820.315mil|Location2.X=13859.685mil|Location1.Y=17335.315mil|Location2.Y=17584.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13820.315mil|Location2.X=13859.685mil|Location1.Y=17335.315mil|Location2.Y=17584.685mil|Absolute=True">Width Constraint: Track (40.767mm,24.257mm)(40.767mm,29.591mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13820.315mil|Location2.X=13859.685mil|Location1.Y=17185.315mil|Location2.Y=17384.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13820.315mil|Location2.X=13859.685mil|Location1.Y=17185.315mil|Location2.Y=17384.685mil|Absolute=True">Width Constraint: Track (40.767mm,20.447mm)(40.767mm,24.511mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13795.709mil|Location2.X=13859.685mil|Location1.Y=17160.709mil|Location2.Y=17224.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13795.709mil|Location2.X=13859.685mil|Location1.Y=17160.709mil|Location2.Y=17224.685mil|Absolute=True">Width Constraint: Track (40.142mm,19.822mm)(40.767mm,20.447mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13835.079mil|Location1.Y=17160.709mil|Location2.Y=17200.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13835.079mil|Location1.Y=17160.709mil|Location2.Y=17200.079mil|Absolute=True">Width Constraint: Track (38.481mm,19.822mm)(40.142mm,19.822mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13685.709mil|Location2.X=13794.685mil|Location1.Y=17260.709mil|Location2.Y=17300.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13685.709mil|Location2.X=13794.685mil|Location1.Y=17260.709mil|Location2.Y=17300.079mil|Absolute=True">Width Constraint: Track (37.348mm,22.362mm)(39.116mm,22.362mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True">Width Constraint: Track (26.416mm,20.955mm)(28.067mm,20.955mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True">Width Constraint: Track (24.44293mm,16.32407mm)(25.83351mm,14.93349mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13217.005mil|Location1.Y=17022.995mil|Location2.Y=17067.254mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13217.005mil|Location1.Y=17022.995mil|Location2.Y=17067.254mil|Absolute=True">Width Constraint: Track (24.44293mm,16.32407mm)(24.44293mm,16.44825mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.685mil|Location1.Y=16869.315mil|Location2.Y=16908.764mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.685mil|Location1.Y=16869.315mil|Location2.Y=16908.764mil|Absolute=True">Width Constraint: Track (19.937mm,12.4226mm)(19.939mm,12.4206mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True">Width Constraint: Track (19.937mm,12.4226mm)(19.937mm,14.5234mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True">Width Constraint: Track (14.04449mm,14.93349mm)(15.55925mm,16.44825mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.254mil|Location1.Y=17027.884mil|Location2.Y=17067.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.254mil|Location1.Y=17027.884mil|Location2.Y=17067.365mil|Absolute=True">Width Constraint: Track (15.55925mm,16.44825mm)(15.55925mm,16.45107mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True">Width Constraint: Track (11.936mm,20.83mm)(13.6344mm,20.83mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True">Width Constraint: Track (24.511mm,25.4mm)(25.83351mm,26.72251mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13219.685mil|Location1.Y=17370.315mil|Location2.Y=17419.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13219.685mil|Location1.Y=17370.315mil|Location2.Y=17419.685mil|Absolute=True">Width Constraint: Track (24.511mm,25.146mm)(24.511mm,25.4mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.315mil|Location2.X=13039.764mil|Location1.Y=17531.236mil|Location2.Y=17570.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.315mil|Location2.X=13039.764mil|Location1.Y=17531.236mil|Location2.Y=17570.685mil|Absolute=True">Width Constraint: Track (19.939mm,29.2354mm)(19.941mm,29.2334mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True">Width Constraint: Track (19.941mm,27.1326mm)(19.941mm,29.2334mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True">Width Constraint: Track (14.224mm,26.543mm)(15.55925mm,25.20775mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.365mil|Location1.Y=17372.746mil|Location2.Y=17412.116mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.365mil|Location1.Y=17372.746mil|Location2.Y=17412.116mil|Absolute=True">Width Constraint: Track (15.55925mm,25.20775mm)(15.56207mm,25.20775mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12814.685mil|Location1.Y=17425.426mil|Location2.Y=17474.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12814.685mil|Location1.Y=17425.426mil|Location2.Y=17474.685mil|Absolute=True">Width Constraint: Track (14.224mm,26.54582mm)(14.224mm,26.797mm)  Top Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13575.472mil|Location2.X=13634.528mil|Location1.Y=16535.472mil|Location2.Y=17344.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13575.472mil|Location2.X=13634.528mil|Location1.Y=16535.472mil|Location2.Y=17344.528mil|Absolute=True">Width Constraint: Track (34.798mm,4.191mm)(34.798mm,23.241mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13575.472mil|Location2.X=13699.921mil|Location1.Y=17285.472mil|Location2.Y=17409.921mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13575.472mil|Location2.X=13699.921mil|Location1.Y=17285.472mil|Location2.Y=17409.921mil|Absolute=True">Width Constraint: Track (34.798mm,23.241mm)(36.459mm,24.902mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13640.866mil|Location2.X=13779.528mil|Location1.Y=17350.866mil|Location2.Y=17409.921mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13640.866mil|Location2.X=13779.528mil|Location1.Y=17350.866mil|Location2.Y=17409.921mil|Absolute=True">Width Constraint: Track (36.459mm,24.902mm)(38.481mm,24.902mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12704.528mil|Location1.Y=17815.472mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12704.528mil|Location1.Y=17815.472mil|Location2.Y=17969.528mil|Absolute=True">Width Constraint: Track (11.176mm,36.703mm)(11.176mm,39.116mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12749.528mil|Location1.Y=17770.472mil|Location2.Y=17874.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12749.528mil|Location1.Y=17770.472mil|Location2.Y=17874.528mil|Absolute=True">Width Constraint: Track (11.176mm,36.703mm)(12.319mm,35.56mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12690.472mil|Location2.X=12769.528mil|Location1.Y=17770.472mil|Location2.Y=17829.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12690.472mil|Location2.X=12769.528mil|Location1.Y=17770.472mil|Location2.Y=17829.528mil|Absolute=True">Width Constraint: Track (12.319mm,35.56mm)(12.827mm,35.56mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12720.472mil|Location2.X=13059.528mil|Location1.Y=17770.472mil|Location2.Y=17829.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12720.472mil|Location2.X=13059.528mil|Location1.Y=17770.472mil|Location2.Y=17829.528mil|Absolute=True">Width Constraint: Track (13.081mm,35.56mm)(20.193mm,35.56mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13045.473mil|Location2.X=13104.528mil|Location1.Y=17815.473mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13045.473mil|Location2.X=13104.528mil|Location1.Y=17815.473mil|Location2.Y=17969.528mil|Absolute=True">Width Constraint: Track (21.336mm,36.703mm)(21.336mm,39.116mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.472mil|Location2.X=13104.528mil|Location1.Y=17770.472mil|Location2.Y=17874.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.472mil|Location2.X=13104.528mil|Location1.Y=17770.472mil|Location2.Y=17874.528mil|Absolute=True">Width Constraint: Track (20.193mm,35.56mm)(21.336mm,36.703mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True">Width Constraint: Track (13.716mm,39.116mm)(18.542mm,39.116mm)  Bottom Layer</acronym></a><br></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDC2T5ROSZIGUCO11KB3Z5LOIYUEGHL1TZYV2BOKOMCVVGBBR0B1BD"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Short-Circuit Constraint (Allowed=No) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.331mil|Location2.X=13049.512mil|Location1.Y=17037.103mil|Location2.Y=17084.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.331mil|Location2.X=13049.512mil|Location1.Y=17037.103mil|Location2.Y=17084.472mil|Absolute=True">Pad R5-1(19.937mm,16.784mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12872.83mil|Location2.X=12948.173mil|Location1.Y=17072.941mil|Location2.Y=17148.284mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12872.83mil|Location2.X=12948.173mil|Location1.Y=17072.941mil|Location2.Y=17148.284mil|Absolute=True">Pad R6-1(17.15773mm,18.04955mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.488mil|Location2.X=13049.669mil|Location1.Y=17355.528mil|Location2.Y=17402.897mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.488mil|Location2.X=13049.669mil|Location1.Y=17355.528mil|Location2.Y=17402.897mil|Absolute=True">Pad R1-1(19.941mm,24.872mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12872.941mil|Location2.X=12948.284mil|Location1.Y=17291.827mil|Location2.Y=17367.17mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12872.941mil|Location2.X=12948.284mil|Location1.Y=17291.827mil|Location2.Y=17367.17mil|Absolute=True">Pad R8-1(17.16055mm,23.60927mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12837.103mil|Location2.X=12884.472mil|Location1.Y=17190.488mil|Location2.Y=17249.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12837.103mil|Location2.X=12884.472mil|Location1.Y=17190.488mil|Location2.Y=17249.669mil|Absolute=True">Pad R7-1(15.895mm,20.83mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13155.528mil|Location2.X=13202.897mil|Location1.Y=17190.331mil|Location2.Y=17249.512mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13155.528mil|Location2.X=13202.897mil|Location1.Y=17190.331mil|Location2.Y=17249.512mil|Absolute=True">Pad R3-1(23.983mm,20.826mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13096.716mil|Location2.X=13172.059mil|Location1.Y=17072.83mil|Location2.Y=17148.173mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13096.716mil|Location2.X=13172.059mil|Location1.Y=17072.83mil|Location2.Y=17148.173mil|Absolute=True">Pad R4-1(22.84445mm,18.04673mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13091.827mil|Location2.X=13167.17mil|Location1.Y=17291.716mil|Location2.Y=17367.059mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13091.827mil|Location2.X=13167.17mil|Location1.Y=17291.716mil|Location2.Y=17367.059mil|Absolute=True">Pad R2-1(22.72027mm,23.60645mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12841.966mil|Location2.X=13198.034mil|Location1.Y=17041.966mil|Location2.Y=17398.034mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12576.315mil|Location2.X=12623.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12576.315mil|Location2.X=12623.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True">Pad L7-1(9.271mm,20.828mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17616.315mil|Location2.Y=17663.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17616.315mil|Location2.Y=17663.685mil|Absolute=True">Pad L1-1(19.939mm,31.496mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12687.328mil|Location2.X=12762.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12687.328mil|Location2.X=12762.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True">Pad L6-1(12.446mm,13.335mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12687.328mil|Location2.X=12762.672mil|Location1.Y=17477.328mil|Location2.Y=17552.672mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12687.328mil|Location2.X=12762.672mil|Location1.Y=17477.328mil|Location2.Y=17552.672mil|Absolute=True">Pad L8-1(12.446mm,28.321mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16776.315mil|Location2.Y=16823.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16776.315mil|Location2.Y=16823.685mil|Absolute=True">Pad L5-1(19.939mm,10.16mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True">Pad L4-1(27.432mm,13.335mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13411.315mil|Location2.X=13458.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13411.315mil|Location2.X=13458.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True">Pad L3-1(30.48mm,20.828mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=17477.328mil|Location2.Y=17552.672mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=17477.328mil|Location2.Y=17552.672mil|Absolute=True">Pad L2-1(27.432mm,28.321mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12585.285mil|Location2.X=13454.674mil|Location1.Y=16785.285mil|Location2.Y=17654.715mil|Absolute=True">Arc (19.939mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.365mil|Location1.Y=17372.746mil|Location2.Y=17412.116mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.365mil|Location1.Y=17372.746mil|Location2.Y=17412.116mil|Absolute=True">Track (15.55925mm,25.20775mm)(15.56207mm,25.20775mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12810.008mil|Location2.X=12885.351mil|Location1.Y=17354.76mil|Location2.Y=17430.103mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12810.008mil|Location2.X=12885.351mil|Location1.Y=17354.76mil|Location2.Y=17430.103mil|Absolute=True">Pad R8-2(15.56207mm,25.20775mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True">Track (14.224mm,26.543mm)(15.55925mm,25.20775mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12810.008mil|Location2.X=12885.351mil|Location1.Y=17354.76mil|Location2.Y=17430.103mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12810.008mil|Location2.X=12885.351mil|Location1.Y=17354.76mil|Location2.Y=17430.103mil|Absolute=True">Pad R8-2(15.56207mm,25.20775mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True">Track (11.936mm,20.83mm)(13.6344mm,20.83mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12748.103mil|Location2.X=12795.472mil|Location1.Y=17190.488mil|Location2.Y=17249.669mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12748.103mil|Location2.X=12795.472mil|Location1.Y=17190.488mil|Location2.Y=17249.669mil|Absolute=True">Pad R7-2(13.6344mm,20.83mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.254mil|Location1.Y=17027.884mil|Location2.Y=17067.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12827.884mil|Location2.X=12867.254mil|Location1.Y=17027.884mil|Location2.Y=17067.365mil|Absolute=True">Track (15.55925mm,16.44825mm)(15.55925mm,16.45107mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12809.897mil|Location2.X=12885.24mil|Location1.Y=17010.008mil|Location2.Y=17085.351mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12809.897mil|Location2.X=12885.24mil|Location1.Y=17010.008mil|Location2.Y=17085.351mil|Absolute=True">Pad R6-2(15.55925mm,16.45107mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True">Track (14.04449mm,14.93349mm)(15.55925mm,16.44825mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12809.897mil|Location2.X=12885.24mil|Location1.Y=17010.008mil|Location2.Y=17085.351mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12809.897mil|Location2.X=12885.24mil|Location1.Y=17010.008mil|Location2.Y=17085.351mil|Absolute=True">Pad R6-2(15.55925mm,16.45107mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True">Track (19.937mm,12.4226mm)(19.937mm,14.5234mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.331mil|Location2.X=13049.512mil|Location1.Y=16948.103mil|Location2.Y=16995.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.331mil|Location2.X=13049.512mil|Location1.Y=16948.103mil|Location2.Y=16995.472mil|Absolute=True">Pad R5-2(19.937mm,14.5234mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13217.005mil|Location1.Y=17022.995mil|Location2.Y=17067.254mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13217.005mil|Location1.Y=17022.995mil|Location2.Y=17067.254mil|Absolute=True">Track (24.44293mm,16.32407mm)(24.44293mm,16.44825mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13159.649mil|Location2.X=13234.992mil|Location1.Y=17009.897mil|Location2.Y=17085.24mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13159.649mil|Location2.X=13234.992mil|Location1.Y=17009.897mil|Location2.Y=17085.24mil|Absolute=True">Pad R4-2(24.44293mm,16.44825mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True">Track (24.44293mm,16.32407mm)(25.83351mm,14.93349mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13159.649mil|Location2.X=13234.992mil|Location1.Y=17009.897mil|Location2.Y=17085.24mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13159.649mil|Location2.X=13234.992mil|Location1.Y=17009.897mil|Location2.Y=17085.24mil|Absolute=True">Pad R4-2(24.44293mm,16.44825mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13140.315mil|Location2.X=13589.685mil|Location1.Y=17125.315mil|Location2.Y=17164.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13140.315mil|Location2.X=13589.685mil|Location1.Y=17125.315mil|Location2.Y=17164.685mil|Absolute=True">Track (23.495mm,18.923mm)(33.909mm,18.923mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13096.716mil|Location2.X=13172.059mil|Location1.Y=17072.83mil|Location2.Y=17148.173mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13096.716mil|Location2.X=13172.059mil|Location1.Y=17072.83mil|Location2.Y=17148.173mil|Absolute=True">Pad R4-1(22.84445mm,18.04673mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True">Track (26.416mm,20.955mm)(28.067mm,20.955mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13244.528mil|Location2.X=13291.897mil|Location1.Y=17190.331mil|Location2.Y=17249.512mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13244.528mil|Location2.X=13291.897mil|Location1.Y=17190.331mil|Location2.Y=17249.512mil|Absolute=True">Pad R3-2(26.2436mm,20.826mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13219.685mil|Location1.Y=17370.315mil|Location2.Y=17419.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13219.685mil|Location1.Y=17370.315mil|Location2.Y=17419.685mil|Absolute=True">Track (24.511mm,25.146mm)(24.511mm,25.4mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13154.76mil|Location2.X=13230.103mil|Location1.Y=17354.649mil|Location2.Y=17429.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13154.76mil|Location2.X=13230.103mil|Location1.Y=17354.649mil|Location2.Y=17429.992mil|Absolute=True">Pad R2-2(24.31875mm,25.20493mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True">Track (24.511mm,25.4mm)(25.83351mm,26.72251mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13154.76mil|Location2.X=13230.103mil|Location1.Y=17354.649mil|Location2.Y=17429.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13154.76mil|Location2.X=13230.103mil|Location1.Y=17354.649mil|Location2.Y=17429.992mil|Absolute=True">Pad R2-2(24.31875mm,25.20493mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True">Track (19.941mm,27.1326mm)(19.941mm,29.2334mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.488mil|Location2.X=13049.669mil|Location1.Y=17444.528mil|Location2.Y=17491.897mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.488mil|Location2.X=13049.669mil|Location1.Y=17444.528mil|Location2.Y=17491.897mil|Absolute=True">Pad R1-2(19.941mm,27.1326mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12814.685mil|Location1.Y=17425.426mil|Location2.Y=17474.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12814.685mil|Location1.Y=17425.426mil|Location2.Y=17474.685mil|Absolute=True">Track (14.224mm,26.54582mm)(14.224mm,26.797mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True">Pad L8-2(14.04449mm,26.72251mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12775.315mil|Location2.X=12867.254mil|Location1.Y=17372.746mil|Location2.Y=17464.685mil|Absolute=True">Track (14.224mm,26.543mm)(15.55925mm,25.20775mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True">Pad L8-2(14.04449mm,26.72251mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12685.236mil|Location2.X=12791.472mil|Location1.Y=17200.394mil|Location2.Y=17239.764mil|Absolute=True">Track (11.936mm,20.83mm)(13.6344mm,20.83mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12665.315mil|Location2.X=12712.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12665.315mil|Location2.X=12712.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True">Pad L7-2(11.5316mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12768.247mil|Location2.X=12867.254mil|Location1.Y=16968.248mil|Location2.Y=17067.254mil|Absolute=True">Track (14.04449mm,14.93349mm)(15.55925mm,16.44825mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=16950.261mil|Location2.Y=17025.604mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12750.261mil|Location2.X=12825.604mil|Location1.Y=16950.261mil|Location2.Y=17025.604mil|Absolute=True">Pad L6-2(14.04449mm,14.93349mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.606mil|Location1.Y=16869.394mil|Location2.Y=16991.472mil|Absolute=True">Track (19.937mm,12.4226mm)(19.937mm,14.5234mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16865.315mil|Location2.Y=16912.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16865.315mil|Location2.Y=16912.685mil|Absolute=True">Pad L5-2(19.939mm,12.4206mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.685mil|Location1.Y=16869.315mil|Location2.Y=16908.764mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.236mil|Location2.X=13039.685mil|Location1.Y=16869.315mil|Location2.Y=16908.764mil|Absolute=True">Track (19.937mm,12.4226mm)(19.939mm,12.4206mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16865.315mil|Location2.Y=16912.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=16865.315mil|Location2.Y=16912.685mil|Absolute=True">Pad L5-2(19.939mm,12.4206mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13177.635mil|Location2.X=13271.753mil|Location1.Y=16968.248mil|Location2.Y=17062.365mil|Absolute=True">Track (24.44293mm,16.32407mm)(25.83351mm,14.93349mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13214.396mil|Location2.X=13289.739mil|Location1.Y=16950.261mil|Location2.Y=17025.604mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13214.396mil|Location2.X=13289.739mil|Location1.Y=16950.261mil|Location2.Y=17025.604mil|Absolute=True">Pad L4-2(25.83351mm,14.93349mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13293.786mil|Location2.X=13481.626mil|Location1.Y=16906.844mil|Location2.Y=17094.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13293.786mil|Location2.X=13481.626mil|Location1.Y=16906.844mil|Location2.Y=17094.685mil|Absolute=True">Track (27.39315mm,13.37385mm)(31.16431mm,17.145mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13277.328mil|Location2.X=13352.672mil|Location1.Y=16887.328mil|Location2.Y=16962.672mil|Absolute=True">Pad L4-1(27.432mm,13.335mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13255.315mil|Location2.X=13359.685mil|Location1.Y=17205.315mil|Location2.Y=17244.685mil|Absolute=True">Track (26.416mm,20.955mm)(28.067mm,20.955mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13322.315mil|Location2.X=13369.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13322.315mil|Location2.X=13369.685mil|Location1.Y=17190.41mil|Location2.Y=17249.59mil|Absolute=True">Pad L3-2(28.2194mm,20.828mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13180.315mil|Location2.X=13271.753mil|Location1.Y=17380.315mil|Location2.Y=17471.752mil|Absolute=True">Track (24.511mm,25.4mm)(25.83351mm,26.72251mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13214.396mil|Location2.X=13289.739mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13214.396mil|Location2.X=13289.739mil|Location1.Y=17414.396mil|Location2.Y=17489.739mil|Absolute=True">Pad L2-2(25.83351mm,26.72251mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.315mil|Location2.X=13039.764mil|Location1.Y=17531.236mil|Location2.Y=17570.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.315mil|Location2.X=13039.764mil|Location1.Y=17531.236mil|Location2.Y=17570.685mil|Absolute=True">Track (19.939mm,29.2354mm)(19.941mm,29.2334mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17527.315mil|Location2.Y=17574.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17527.315mil|Location2.Y=17574.685mil|Absolute=True">Pad L1-2(19.939mm,29.2354mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13000.394mil|Location2.X=13039.764mil|Location1.Y=17448.528mil|Location2.Y=17570.606mil|Absolute=True">Track (19.941mm,27.1326mm)(19.941mm,29.2334mm)  Top Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17527.315mil|Location2.Y=17574.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12990.409mil|Location2.X=13049.591mil|Location1.Y=17527.315mil|Location2.Y=17574.685mil|Absolute=True">Pad L1-2(19.939mm,29.2354mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12735.567mil|Location2.X=12814.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12735.567mil|Location2.X=12814.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J2-2(13.716mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12751.378mil|Location2.X=12798.622mil|Location1.Y=17786.378mil|Location2.Y=17963.622mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12751.378mil|Location2.X=12798.622mil|Location1.Y=17786.378mil|Location2.Y=17963.622mil|Absolute=True">Track (13.716mm,35.814mm)(13.716mm,39.116mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=16940.961mil|Location2.Y=17019.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=16940.961mil|Location2.Y=17019.827mil|Absolute=True">Pad J1-6(38.481mm,14.742mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13726.378mil|Location2.X=13773.622mil|Location1.Y=16896.378mil|Location2.Y=17004.016mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13726.378mil|Location2.X=13773.622mil|Location1.Y=16896.378mil|Location2.Y=17004.016mil|Absolute=True">Track (38.481mm,13.208mm)(38.481mm,14.742mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17240.961mil|Location2.Y=17319.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17240.961mil|Location2.Y=17319.827mil|Absolute=True">Pad J1-3(38.481mm,22.362mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13550.315mil|Location2.X=13725.079mil|Location1.Y=17125.315mil|Location2.Y=17300.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13550.315mil|Location2.X=13725.079mil|Location1.Y=17125.315mil|Location2.Y=17300.079mil|Absolute=True">Track (33.909mm,18.923mm)(37.348mm,22.362mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17040.961mil|Location2.Y=17119.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17040.961mil|Location2.Y=17119.827mil|Absolute=True">Pad J1-5(38.481mm,17.282mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13442.256mil|Location2.X=13779.685mil|Location1.Y=17055.315mil|Location2.Y=17094.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13442.256mil|Location2.X=13779.685mil|Location1.Y=17055.315mil|Location2.Y=17094.685mil|Absolute=True">Track (31.16431mm,17.145mm)(38.735mm,17.145mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13035.567mil|Location2.X=13114.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13035.567mil|Location2.X=13114.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J3-2(21.336mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13040.315mil|Location2.X=13379.685mil|Location1.Y=17635.315mil|Location2.Y=17974.685mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13040.315mil|Location2.X=13379.685mil|Location1.Y=17635.315mil|Location2.Y=17974.685mil|Absolute=True">Track (20.95501mm,39.497mm)(28.57501mm,31.877mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17140.961mil|Location2.Y=17219.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17140.961mil|Location2.Y=17219.827mil|Absolute=True">Pad J1-4(38.481mm,19.822mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13835.079mil|Location1.Y=17160.709mil|Location2.Y=17200.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13730.315mil|Location2.X=13835.079mil|Location1.Y=17160.709mil|Location2.Y=17200.079mil|Absolute=True">Track (38.481mm,19.822mm)(40.142mm,19.822mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17240.961mil|Location2.Y=17319.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17240.961mil|Location2.Y=17319.827mil|Absolute=True">Pad J1-3(38.481mm,22.362mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13685.709mil|Location2.X=13794.685mil|Location1.Y=17260.709mil|Location2.Y=17300.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13685.709mil|Location2.X=13794.685mil|Location1.Y=17260.709mil|Location2.Y=17300.079mil|Absolute=True">Track (37.348mm,22.362mm)(39.116mm,22.362mm)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17340.961mil|Location2.Y=17419.827mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17340.961mil|Location2.Y=17419.827mil|Absolute=True">Pad J1-2(38.481mm,24.902mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13640.866mil|Location2.X=13779.528mil|Location1.Y=17350.866mil|Location2.Y=17409.921mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13640.866mil|Location2.X=13779.528mil|Location1.Y=17350.866mil|Location2.Y=17409.921mil|Absolute=True">Track (36.459mm,24.902mm)(38.481mm,24.902mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12635.567mil|Location2.X=12714.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12635.567mil|Location2.X=12714.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J2-1(11.176mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12704.528mil|Location1.Y=17815.472mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12645.472mil|Location2.X=12704.528mil|Location1.Y=17815.472mil|Location2.Y=17969.528mil|Absolute=True">Track (11.176mm,36.703mm)(11.176mm,39.116mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13035.567mil|Location2.X=13114.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13035.567mil|Location2.X=13114.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J3-2(21.336mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13045.473mil|Location2.X=13104.528mil|Location1.Y=17815.473mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13045.473mil|Location2.X=13104.528mil|Location1.Y=17815.473mil|Location2.Y=17969.528mil|Absolute=True">Track (21.336mm,36.703mm)(21.336mm,39.116mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12735.567mil|Location2.X=12814.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12735.567mil|Location2.X=12814.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J2-2(13.716mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True">Track (13.716mm,39.116mm)(18.542mm,39.116mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12935.567mil|Location2.X=13014.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12935.567mil|Location2.X=13014.433mil|Location1.Y=17886.787mil|Location2.Y=17993.213mil|Absolute=True">Pad J3-1(18.796mm,39.116mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=12745.473mil|Location2.X=12994.527mil|Location1.Y=17910.473mil|Location2.Y=17969.528mil|Absolute=True">Track (13.716mm,39.116mm)(18.542mm,39.116mm)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17440.567mil|Location2.Y=17519.433mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13702.693mil|Location2.X=13797.307mil|Location1.Y=17440.567mil|Location2.Y=17519.433mil|Absolute=True">Pad J1-1(38.481mm,27.432mm)  Multi-Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13520mil|Location2.X=13780mil|Location1.Y=17445mil|Location2.Y=17790mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Aysi\Projects\FamilVeinBrush\HEAT_BIO\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=13520mil|Location2.X=13780mil|Location1.Y=17445mil|Location2.Y=17790mil|Absolute=True">Region (0 hole(s)) Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br></body>
+</html>

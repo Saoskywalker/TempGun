@@ -1,0 +1,83 @@
+Protel Design System Design Rule Check
+PCB File : D:\fuqiang\Projects\TempGun\TempGun PCB\TempGun.PcbDoc
+Date     : 2020/3/6
+Time     : 16:32:25
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.3mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.254mm) (Max=2mm) (Preferred=0.3mm) (All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.0254mm) (Max=2.54mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
+   Violation between Pad U2-2(24.511mm,9.286mm)  Top Layer and 
+                     Pad U2-1(24.511mm,8.636mm)  Top Layer
+   Violation between Pad U2-3(24.511mm,9.936mm)  Top Layer and 
+                     Pad U2-2(24.511mm,9.286mm)  Top Layer
+   Violation between Pad U2-4(24.511mm,10.586mm)  Top Layer and 
+                     Pad U2-3(24.511mm,9.936mm)  Top Layer
+   Violation between Pad U2-5(24.511mm,11.236mm)  Top Layer and 
+                     Pad U2-4(24.511mm,10.586mm)  Top Layer
+   Violation between Pad U2-6(24.511mm,11.886mm)  Top Layer and 
+                     Pad U2-5(24.511mm,11.236mm)  Top Layer
+   Violation between Pad U2-7(24.511mm,12.536mm)  Top Layer and 
+                     Pad U2-6(24.511mm,11.886mm)  Top Layer
+   Violation between Pad U2-8(24.511mm,13.186mm)  Top Layer and 
+                     Pad U2-7(24.511mm,12.536mm)  Top Layer
+   Violation between Pad U2-9(24.511mm,13.836mm)  Top Layer and 
+                     Pad U2-8(24.511mm,13.186mm)  Top Layer
+   Violation between Pad U2-10(24.511mm,14.486mm)  Top Layer and 
+                     Pad U2-9(24.511mm,13.836mm)  Top Layer
+   Violation between Pad U2-19(18.811mm,9.286mm)  Top Layer and 
+                     Pad U2-20(18.811mm,8.636mm)  Top Layer
+   Violation between Pad U2-18(18.811mm,9.936mm)  Top Layer and 
+                     Pad U2-19(18.811mm,9.286mm)  Top Layer
+   Violation between Pad U2-17(18.811mm,10.586mm)  Top Layer and 
+                     Pad U2-18(18.811mm,9.936mm)  Top Layer
+   Violation between Pad U2-16(18.811mm,11.236mm)  Top Layer and 
+                     Pad U2-17(18.811mm,10.586mm)  Top Layer
+   Violation between Pad U2-15(18.811mm,11.886mm)  Top Layer and 
+                     Pad U2-16(18.811mm,11.236mm)  Top Layer
+   Violation between Pad U2-14(18.811mm,12.536mm)  Top Layer and 
+                     Pad U2-15(18.811mm,11.886mm)  Top Layer
+   Violation between Pad U2-13(18.811mm,13.186mm)  Top Layer and 
+                     Pad U2-14(18.811mm,12.536mm)  Top Layer
+   Violation between Pad U2-12(18.811mm,13.836mm)  Top Layer and 
+                     Pad U2-13(18.811mm,13.186mm)  Top Layer
+   Violation between Pad U2-11(18.811mm,14.486mm)  Top Layer and 
+                     Pad U2-12(18.811mm,13.836mm)  Top Layer
+Rule Violations :18
+
+Processing Rule : Silkscreen Over Component Pads (Clearance=0mm) (IsPad),(All)
+Rule Violations :0
+
+Processing Rule : Silk to Silk (Clearance=0mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mm) (All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.5mm) (IsRegion),(All)
+Rule Violations :0
+
+
+Violations Detected : 18
+Time Elapsed        : 00:00:00

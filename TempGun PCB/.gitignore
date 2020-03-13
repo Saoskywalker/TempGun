@@ -1,0 +1,5 @@
+*.LOG
+*.SchDocPreview
+*.PcbDocPreview
+*.PcbDocPreview
+/History/
